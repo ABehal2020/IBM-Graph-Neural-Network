@@ -1,0 +1,517 @@
+(bondnet) Adityas-MacBook-Pro:train adityabehal$ python  ../../train_bde_distributed.py --molecule_file  molecules.sdf --molecule_attributes_file molecule_attributes.yaml  --reaction_file reactions.yaml
+Using backend: pytorch
+Namespace(batch_size=100, dataset_state_dict_filename='dataset_state_dict.pkl', dist_backend='nccl', dist_url='tcp://localhost:13456', distributed=0, embedding_size=24, epochs=1000, fc_activation='ReLU', fc_batch_norm=0, fc_dropout=0.0, fc_hidden_size=[64, 32], fc_num_layers=2, gated_activation='ReLU', gated_batch_norm=1, gated_dropout=0.0, gated_graph_norm=0, gated_hidden_size=[64, 64, 64], gated_num_fc_layers=2, gated_num_layers=3, gated_residual=1, gpu=None, lr=0.001, molecule_attributes_file='molecule_attributes.yaml', molecule_file='molecules.sdf', num_gpu=None, num_lstm_iters=6, num_lstm_layers=3, output_file='results.pkl', reaction_file='reactions.yaml', restore=0, start_epoch=0, weight_decay=0.0)
+
+
+Start training at: 2022-07-06 10:33:01.920823
+[10:33:01] Warning: molecule is tagged as 3D, but all Z coords are zero
+[10:33:01] Warning: molecule is tagged as 3D, but all Z coords are zero
+[10:33:01] Warning: molecule is tagged as 3D, but all Z coords are zero
+[10:33:01] Warning: molecule is tagged as 3D, but all Z coords are zero
+[10:33:01] Warning: molecule is tagged as 3D, but all Z coords are zero
+[10:33:01] Warning: molecule is tagged as 3D, but all Z coords are zero
+[10:33:01] Warning: molecule is tagged as 3D, but all Z coords are zero
+[10:33:01] Warning: molecule is tagged as 3D, but all Z coords are zero
+[10:33:01] Warning: molecule is tagged as 3D, but all Z coords are zero
+[10:33:01] Warning: molecule is tagged as 3D, but all Z coords are zero
+[10:33:01] Warning: molecule is tagged as 3D, but all Z coords are zero
+[10:33:01] Warning: molecule is tagged as 3D, but all Z coords are zero
+Trainset size: 160, valset size: 20: testset size: 20.
+GatedGCNReactionNetwork(
+  (embedding): UnifySize(
+    (linears): ModuleDict(
+      (atom): Linear(in_features=22, out_features=24, bias=False)
+      (bond): Linear(in_features=11, out_features=24, bias=False)
+      (global): Linear(in_features=3, out_features=24, bias=False)
+    )
+  )
+  (gated_layers): ModuleList(
+    (0): GatedGCNConv(
+      (activation): ReLU()
+      (A): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=24, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (B): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=24, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (C): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=24, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (D): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=24, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (E): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=24, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (F): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=24, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (G): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (H): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (I): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=24, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (bn_node_h): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (bn_node_e): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (bn_node_u): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (dropout): Identity()
+    )
+    (1): GatedGCNConv(
+      (activation): ReLU()
+      (A): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (B): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (C): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (D): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (E): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (F): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (G): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (H): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (I): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (bn_node_h): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (bn_node_e): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (bn_node_u): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (dropout): Identity()
+    )
+    (2): GatedGCNConv(
+      (activation): ReLU()
+      (A): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (B): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (C): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (D): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (E): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (F): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (G): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (H): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (I): LinearN(
+        (fc_layers): ModuleList(
+          (0): Linear(in_features=64, out_features=64, bias=True)
+          (1): ReLU()
+          (2): Linear(in_features=64, out_features=64, bias=True)
+          (3): Identity()
+        )
+      )
+      (bn_node_h): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (bn_node_e): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (bn_node_u): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (dropout): Identity()
+    )
+  )
+  (readout_layer): Set2SetThenCat(
+    (layers): ModuleDict(
+      (atom): Set2Set(
+        n_iters=6
+        (lstm): LSTM(128, 64, num_layers=3)
+      )
+      (bond): Set2Set(
+        n_iters=6
+        (lstm): LSTM(128, 64, num_layers=3)
+      )
+    )
+  )
+  (fc_layers): ModuleList(
+    (0): Linear(in_features=320, out_features=64, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=64, out_features=32, bias=True)
+    (3): ReLU()
+    (4): Linear(in_features=32, out_features=1, bias=True)
+  )
+)
+
+
+# Epoch     Loss         TrainAcc        ValAcc     Time (s)
+    0   9.511707e-01   2.677396e+00   1.988202e+00   2.57
+    1   8.051758e-01   2.442432e+00   1.953580e+00   2.44
+    2   8.056997e-01   2.252287e+00   1.915007e+00   2.47
+    3   5.581881e-01   2.011836e+00   1.880363e+00   2.55
+    4   4.949953e-01   1.887209e+00   1.843622e+00   2.35
+    5   3.936097e-01   1.695992e+00   1.806864e+00   2.33
+    6   3.523840e-01   1.598345e+00   1.781317e+00   2.43
+    7   2.795692e-01   1.419356e+00   1.750928e+00   2.66
+    8   2.301481e-01   1.238338e+00   1.732878e+00   2.35
+    9   1.740739e-01   1.061956e+00   1.711403e+00   2.34
+   10   1.724618e-01   9.766225e-01   1.738990e+00   2.61
+   11   1.530651e-01   1.112118e+00   1.706793e+00   2.40
+   12   1.516467e-01   1.036817e+00   1.715621e+00   2.40
+   13   1.063500e-01   8.109334e-01   1.756308e+00   2.47
+   14   8.312632e-02   7.841818e-01   1.694427e+00   2.63
+   15   6.699402e-02   7.019763e-01   1.679838e+00   2.40
+   16   5.610899e-02   6.331868e-01   1.734577e+00   2.36
+   17   4.991228e-02   6.118498e-01   1.791548e+00   2.45
+   18   4.648915e-02   5.526067e-01   1.726676e+00   2.53
+   19   3.909043e-02   5.245242e-01   1.693637e+00   2.74
+   20   3.557300e-02   4.700597e-01   1.781108e+00   2.53
+   21   3.154397e-02   4.649318e-01   1.821402e+00   2.36
+   22   3.220566e-02   4.634897e-01   1.833143e+00   2.55
+   23   3.165783e-02   4.399851e-01   1.757922e+00   2.57
+   24   2.747820e-02   4.211130e-01   1.789571e+00   2.46
+   25   1.952619e-02   3.871586e-01   1.845473e+00   2.43
+   26   2.220751e-02   4.101654e-01   1.865260e+00   2.35
+   27   1.651409e-02   3.603673e-01   1.861375e+00   2.43
+   28   1.906640e-02   3.254425e-01   1.882606e+00   2.46
+   29   1.461727e-02   3.125270e-01   2.002894e+00   2.40
+   30   1.295757e-02   3.043655e-01   1.993013e+00   2.30
+   31   1.835926e-02   3.373495e-01   1.893826e+00   2.40
+   32   1.283018e-02   3.098418e-01   1.865712e+00   2.58
+   33   1.526116e-02   3.101093e-01   1.764179e+00   2.44
+   34   1.792408e-02   3.252011e-01   1.800808e+00   2.39
+   35   1.053565e-02   2.892704e-01   1.768316e+00   2.37
+   36   1.399876e-02   2.996695e-01   1.761017e+00   2.46
+   37   2.001629e-02   2.996311e-01   1.805173e+00   2.52
+   38   1.374315e-02   2.802969e-01   1.902403e+00   2.39
+   39   1.459624e-02   3.104029e-01   1.922594e+00   2.29
+   40   1.472314e-02   3.040889e-01   1.947373e+00   2.34
+   41   7.773025e-03   2.381446e-01   1.939908e+00   2.38
+   42   1.770604e-02   3.604002e-01   1.835474e+00   2.30
+   43   9.477488e-03   2.429781e-01   1.801670e+00   2.37
+   44   9.122212e-03   2.798105e-01   1.811511e+00   2.32
+   45   6.529594e-03   2.022428e-01   1.883588e+00   2.29
+   46   9.241483e-03   2.390082e-01   1.915528e+00   2.34
+   47   9.911560e-03   2.778987e-01   1.859560e+00   2.37
+   48   6.882812e-03   2.197066e-01   1.822509e+00   2.32
+   49   7.094470e-03   2.326842e-01   1.854326e+00   2.36
+   50   7.935211e-03   2.281650e-01   1.867846e+00   2.27
+   51   4.425942e-03   1.753348e-01   1.881491e+00   2.36
+   52   5.506211e-03   1.917701e-01   1.865901e+00   2.32
+   53   5.504706e-03   2.013960e-01   1.814046e+00   2.27
+   54   1.082071e-02   2.307580e-01   1.810229e+00   2.32
+   55   4.811023e-03   1.868974e-01   1.868428e+00   2.32
+   56   6.104853e-03   2.116764e-01   1.895394e+00   2.26
+   57   4.969172e-03   1.836695e-01   1.877057e+00   2.33
+   58   5.636079e-03   1.734543e-01   1.851782e+00   2.34
+   59   5.015459e-03   1.797218e-01   1.835327e+00   2.29
+   60   6.021787e-03   1.973430e-01   1.818788e+00   2.34
+   61   6.235911e-03   1.979356e-01   1.820335e+00   2.28
+   62   6.328041e-03   1.926432e-01   1.854484e+00   2.32
+   63   8.026812e-03   2.148113e-01   1.898716e+00   2.36
+   64   5.016589e-03   1.915905e-01   1.903072e+00   2.27
+   65   5.887268e-03   2.133519e-01   1.905897e+00   2.30
+Epoch    67: reducing learning rate of group 0 to 4.0000e-04.
+   66   5.207193e-03   1.867404e-01   1.892535e+00   2.33
+   67   7.144466e-03   2.135186e-01   1.887642e+00   2.26
+   68   3.461100e-03   1.575384e-01   1.869399e+00   2.31
+   69   3.228321e-03   1.540450e-01   1.862942e+00   2.32
+   70   2.589282e-03   1.233209e-01   1.856335e+00   2.28
+   71   1.908601e-03   1.257556e-01   1.859352e+00   2.30
+   72   2.428866e-03   1.333141e-01   1.844022e+00   2.29
+   73   1.753344e-03   1.082702e-01   1.821709e+00   2.29
+   74   1.674215e-03   1.052725e-01   1.799227e+00   2.38
+   75   1.844572e-03   1.093813e-01   1.783498e+00   2.30
+   76   2.443861e-03   1.249190e-01   1.793936e+00   2.32
+   77   3.208370e-03   1.473509e-01   1.820241e+00   2.26
+   78   3.811206e-03   1.471656e-01   1.833375e+00   2.31
+   79   1.533623e-03   1.122358e-01   1.824746e+00   2.31
+   80   2.694605e-03   1.373951e-01   1.810328e+00   2.26
+   81   1.824781e-03   1.213606e-01   1.814486e+00   2.59
+   82   1.787355e-03   1.132365e-01   1.823470e+00   2.58
+   83   1.751892e-03   1.056627e-01   1.824512e+00   2.45
+   84   1.465190e-03   1.072252e-01   1.818051e+00   2.52
+   85   2.288679e-03   1.227990e-01   1.830298e+00   2.51
+   86   1.479900e-03   9.746674e-02   1.833849e+00   2.48
+   87   1.947745e-03   1.157267e-01   1.821201e+00   2.54
+   88   9.837510e-04   8.416708e-02   1.815759e+00   2.40
+   89   1.225581e-03   9.360967e-02   1.823263e+00   2.55
+   90   3.655063e-03   1.360353e-01   1.826426e+00   2.46
+   91   8.972324e-04   8.169385e-02   1.841154e+00   2.53
+   92   3.365338e-03   1.406845e-01   1.836718e+00   2.47
+   93   2.090356e-03   1.269545e-01   1.828378e+00   2.39
+   94   1.253486e-03   9.726197e-02   1.820684e+00   2.39
+   95   3.018425e-03   1.461996e-01   1.818551e+00   2.43
+   96   1.666011e-03   1.122433e-01   1.808441e+00   2.30
+   97   1.615978e-03   1.087640e-01   1.808841e+00   2.50
+   98   4.205053e-03   1.618986e-01   1.794637e+00   2.44
+   99   2.412453e-03   1.241471e-01   1.804606e+00   2.54
+  100   2.403415e-03   1.226060e-01   1.812777e+00   2.43
+  101   2.002497e-03   1.308635e-01   1.822482e+00   2.33
+  102   2.089333e-03   1.106215e-01   1.819209e+00   2.38
+  103   1.901450e-03   1.129303e-01   1.812150e+00   2.43
+  104   2.343962e-03   1.230218e-01   1.807736e+00   3.32
+  105   1.644137e-03   1.016895e-01   1.815626e+00   3.09
+  106   2.276690e-03   1.158541e-01   1.828861e+00   2.32
+  107   1.398477e-03   8.759836e-02   1.835163e+00   2.30
+  108   1.569926e-03   1.028941e-01   1.825540e+00   2.36
+  109   1.267214e-03   9.666700e-02   1.817136e+00   2.39
+  110   1.243942e-03   8.916404e-02   1.822589e+00   2.32
+  111   1.275664e-03   9.501344e-02   1.834289e+00   1322.38
+  112   1.414833e-03   9.639937e-02   1.839279e+00   2.61
+  113   9.700936e-04   8.397684e-02   1.836990e+00   2.26
+  114   1.176357e-03   9.112159e-02   1.834876e+00   2.34
+  115   1.238624e-03   9.251387e-02   1.827964e+00   2.69
+  116   8.730272e-04   7.992911e-02   1.820855e+00   11.30
+Epoch   118: reducing learning rate of group 0 to 1.6000e-04.
+  117   9.467611e-04   7.484882e-02   1.833220e+00   11.38
+  118   1.108478e-03   8.319402e-02   1.836301e+00   11.17
+  119   1.042467e-03   8.454885e-02   1.840111e+00   11.19
+  120   2.009295e-03   1.043042e-01   1.836279e+00   38.03
+  121   1.176022e-03   8.757839e-02   1.828861e+00   2.69
+  122   4.549500e-03   1.387685e-01   1.824496e+00   2.41
+  123   1.579003e-03   9.809421e-02   1.820531e+00   2.43
+  124   9.801624e-04   7.839121e-02   1.817597e+00   2.35
+  125   1.221469e-03   8.154304e-02   1.805618e+00   2.35
+  126   1.825424e-03   9.797987e-02   1.799886e+00   2.43
+  127   1.864716e-03   1.067806e-01   1.808288e+00   2.50
+  128   1.147083e-03   7.820247e-02   1.807300e+00   2.39
+  129   1.106643e-03   8.855319e-02   1.812728e+00   2.50
+  130   1.683374e-03   9.834731e-02   1.814984e+00   2.42
+  131   8.010978e-04   8.112165e-02   1.819450e+00   2.32
+  132   1.290357e-03   1.024740e-01   1.828072e+00   2.44
+  133   7.815776e-04   7.491532e-02   1.839164e+00   2.63
+  134   1.451659e-03   8.921548e-02   1.842932e+00   2.76
+  135   1.075289e-03   8.463741e-02   1.838142e+00   2.63
+  136   9.566689e-04   8.410454e-02   1.837637e+00   2.45
+  137   1.068768e-03   8.867735e-02   1.839373e+00   2.32
+  138   7.593788e-04   7.166232e-02   1.836817e+00   2.48
+  139   1.051336e-03   8.377436e-02   1.840112e+00   2.39
+  140   9.432543e-04   8.082842e-02   1.839314e+00   2.41
+  141   1.458609e-03   9.081590e-02   1.836724e+00   2.47
+  142   7.025914e-04   7.227639e-02   1.832357e+00   2.36
+  143   1.042193e-03   9.116314e-02   1.829936e+00   2.36
+  144   5.845993e-04   6.395850e-02   1.835109e+00   2.40
+  145   9.754274e-04   8.401729e-02   1.837889e+00   2.37
+  146   6.587610e-04   6.006111e-02   1.835148e+00   2.42
+  147   1.464912e-03   9.294558e-02   1.821074e+00   2.40
+  148   1.169384e-03   8.762138e-02   1.822307e+00   2.36
+  149   7.341490e-04   6.745060e-02   1.829594e+00   2.42
+  150   1.769408e-03   1.058833e-01   1.840687e+00   2.36
+  151   2.132336e-03   9.806894e-02   1.838171e+00   2.47
+  152   7.619293e-04   6.493766e-02   1.848222e+00   2.48
+  153   1.269836e-03   8.513539e-02   1.851897e+00   2.58
+  154   1.020527e-03   8.340566e-02   1.852746e+00   2.44
+  155   8.163023e-04   7.438605e-02   1.843187e+00   2.49
+  156   2.104441e-03   1.025937e-01   1.832869e+00   2.38
+  157   8.844063e-04   7.318873e-02   1.833259e+00   2.40
+  158   1.805077e-03   1.044837e-01   1.836286e+00   2.41
+  159   9.595716e-04   7.979977e-02   1.830328e+00   2.32
+  160   1.629064e-03   9.891542e-02   1.824799e+00   2.42
+  161   1.447756e-03   9.704695e-02   1.832701e+00   2.35
+  162   8.142105e-04   7.519981e-02   1.832457e+00   2.38
+  163   1.960161e-03   1.192605e-01   1.831097e+00   2.35
+  164   9.355129e-04   8.029809e-02   1.824427e+00   2.35
+
+#TestAcc: 2.380445e+00 
+
+
+Finish training at: 2022-07-06 11:03:05.153414
+(bondnet) Adityas-MacBook-Pro:train adityabehal$ bondnet single "C1COC(=O)O1"
+Using backend: pytorch
+C1COC(=O)O1
+     RDKit          3D
+
+  0  0  0  0  0  0  0  0  0  0999 V3000
+M  V30 BEGIN CTAB
+M  V30 COUNTS 10 10 0 0 0
+M  V30 BEGIN ATOM
+M  V30 1 C -0.731084 -0.639275 -0.0783902 0
+M  V30 2 C -0.501248 0.83538 -0.0138667 0
+M  V30 3 O 0.823837 0.926135 0.474327 0
+M  V30 4 C 1.45242 -0.231129 0.108733 0
+M  V30 5 O 2.65276 -0.422145 0.198598 0
+M  V30 6 O 0.55738 -1.14593 -0.370928 0
+M  V30 7 H -1.06046 -1.05424 0.880213 0
+M  V30 8 H -1.44816 -0.918444 -0.855026 0
+M  V30 9 H -1.20191 1.34016 0.656634 0
+M  V30 10 H -0.543532 1.30949 -1.00029 0
+M  V30 END ATOM
+M  V30 BEGIN BOND
+M  V30 1 1 1 2  
+M  V30 2 1 2 3  
+M  V30 3 1 3 4  
+M  V30 4 2 4 5  4.540323257446289
+M  V30 5 1 4 6  
+M  V30 6 1 6 1  
+M  V30 7 1 1 7  4.05210018157959
+M  V30 8 1 1 8  
+M  V30 9 1 2 9  
+M  V30 10 1 2 10  
+M  V30 END BOND
+M  V30 END CTAB
+M  END
+$$$$
+
+The predicted bond energies in the SDF file are the 7th value in lines between `BEGIN BOND` and `End BOND`.
+Also shown in the generated file `prediction.png`.
+(bondnet) Adityas-MacBook-Pro:train adityabehal$ cd ../predict/
+(bondnet) Adityas-MacBook-Pro:predict adityabehal$ bondnet multiple molecules.sdf -o results.sdf
+Using backend: pytorch
+The predictions have been written to file results.sdf.
+
+The predicted bond energies are the 7th value in lines between `BEGIN BOND` and `End BOND`.
+
+(bondnet) Adityas-MacBook-Pro:predict adityabehal$ bondnet reaction -t graph molecule_graphs.json reactions.csv
+Using backend: pytorch
+reactant,product1,product2,energy
+0,1,2,4.082522
+0,3,4,4.0720415
+
+(bondnet) Adityas-MacBook-Pro:predict adityabehal$ bondnet reaction -t sdf molecules.sdf reactions.csv
+Using backend: pytorch
+reactant,product1,product2,energy
+0,1,2,4.082522
+0,3,4,4.0720415
