@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: bondnet
+Version: 0.1.0
+Summary: short description
+Home-page: https://github.com/mjwen/bondnet
+Author: Mingjian Wen
+Author-email: wenxx151@gmail.com
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: License :: OSI Approved :: Common Development and Distribution License 1.0 (CDDL-1.0)
+Classifier: Operating System :: OS Independent
+License-File: LICENSE
+
+long description

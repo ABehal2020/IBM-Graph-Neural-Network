@@ -1,0 +1,2 @@
+[console_scripts]
+bondnet = bondnet.scripts.predict_cli:cli
