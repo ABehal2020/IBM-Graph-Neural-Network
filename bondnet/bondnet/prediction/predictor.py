@@ -1,17 +1,17 @@
-import torch
 import numpy as np
+import torch
 from bondnet.data.dataloader import DataLoaderReactionNetwork
 from bondnet.prediction.io import (
-    PredictionOneReactant,
-    PredictionMultiReactant,
     PredictionByReaction,
+    PredictionMultiReactant,
+    PredictionOneReactant,
     PredictionStructLabelFeatFiles,
 )
 from bondnet.prediction.load_model import (
-    get_model_path,
     get_model_info,
-    load_model,
+    get_model_path,
     load_dataset,
+    load_model,
 )
 from bondnet.utils import to_path
 
@@ -21,6 +21,7 @@ def predict_single_molecule(
     molecule,
     charge=0,
     ring_bond=False,
+    one_per_iso_bond_group=True,
     write_result=False,
     figure_name="prediction.png",
     format=None,
@@ -33,12 +34,15 @@ def predict_single_molecule(
 
     Args:
         model_name (str): The pre-trained model to use for making predictions. A model
-            should be of the format format `dataset/date`, e.g. `bdncm/20200808`,
+            should be of the format `dataset/date`, e.g. `bdncm/20200808`,
             `pubchem/20200521`. It is possible to provide only the `dataset` part,
             and in this case, the latest model will be used.
         molecule (str): SMILES or InChI string or a path to a file storing these string.
         charge (int): charge of the molecule.
         ring_bond (bool): whether to make predictions for ring bond.
+        one_per_iso_bond_group (bool): If `True`, keep one reaction for each
+            isomorphic bond group (fragments obtained by breaking different bond
+            are isomorphic to each other). If `False`, keep all.
         write_result (bool): whether to write the returned sdf to stdout.
         figure_name (str): the name of the figure to be created showing the bond energy.
         format (str): format of the molecule, if not provided, will guess based on the
@@ -78,7 +82,9 @@ def predict_single_molecule(
             else:
                 format = "smiles"
 
-    predictor = PredictionOneReactant(molecule, charge, format, allowed_charge, ring_bond)
+    predictor = PredictionOneReactant(
+        molecule, charge, format, allowed_charge, ring_bond, one_per_iso_bond_group
+    )
 
     molecules, labels, extra_features = predictor.prepare_data()
     predictions = get_prediction(
@@ -88,20 +94,33 @@ def predict_single_molecule(
     return predictor.write_results(predictions, figure_name, write_result)
 
 
-def predict_multiple_molecules(model_name, molecule_file, charge_file, out_file, format):
+def predict_multiple_molecules(
+    model_name,
+    molecule_file,
+    charge_file,
+    out_file,
+    format,
+    ring_bond=False,
+    one_per_iso_bond_group=True,
+):
     """
     Make predictions of bond energies of multiple molecules.
 
     Args:
         model_name (str): The pretrained model to use for making predictions. A model
-            should be of the format format `dataset/date`, e.g. `bdncm/20200808`,
+            should be of the format `dataset/date`, e.g. `bdncm/20200808`,
             `pubchem/20200531`. It is possible to provide only the `dataset` part,
             and in this case, the latest model will be used.
         molecule_file (str): path to molecule file
         charge_file (str): path to charge file, if `None` charges are set to zero
         out_file (str): path to file to write output
+        ring_bond
         format (str): format of molecules, e.g. `sdf`, `graph`, `pdb`, `smiles`,
             and `inchi`.
+        ring_bond (bool): whether to make predictions for ring bond.
+        one_per_iso_bond_group (bool): If `True`, keep one reaction for each
+            isomorphic bond group (fragments obtained by breaking different bond
+            are isomorphic to each other). If `False`, keep all.
     """
 
     model_path = get_model_path(model_name)
@@ -110,7 +129,12 @@ def predict_multiple_molecules(model_name, molecule_file, charge_file, out_file,
     unit_converter = model_info["unit_conversion"]
 
     predictor = PredictionMultiReactant(
-        molecule_file, charge_file, format, allowed_charge, ring_bond=False
+        molecule_file,
+        charge_file,
+        format,
+        allowed_charge,
+        ring_bond=ring_bond,
+        one_per_iso_bond_group=one_per_iso_bond_group,
     )
     molecules, labels, extra_features = predictor.prepare_data()
     predictions = get_prediction(

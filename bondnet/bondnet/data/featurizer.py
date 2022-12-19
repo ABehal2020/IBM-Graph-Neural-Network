@@ -680,7 +680,7 @@ class AtomFeaturizerFull(BaseFeaturizer):
             + ["hybridization"] * 4
             + ["ring size"] * 5
         )
-
+        print({"feat": feats})
         return {"feat": feats}
 
 

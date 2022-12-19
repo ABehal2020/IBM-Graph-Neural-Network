@@ -272,13 +272,14 @@ class BondDataset(BaseDataset):
                 lb = {}
                 for k, v in raw_labels[i].items():
                     if k == "value":
-                        v = torch.tensor(v, dtype=getattr(torch, self.dtype))
+                        v = torch.unsqueeze(torch.tensor(v, dtype=getattr(torch, self.dtype)),dim=-1)
                     elif k in ["bond_index", "num_bonds_in_molecule"]:
-                        v = torch.tensor(v, dtype=torch.int64)
+                        # v = torch.tensor(v, dtype=torch.int64)
+                        v = torch.unsqueeze(torch.tensor(v, dtype=torch.int64),dim=-1)
                     lb[k] = v
                 self.labels.append(lb)
                 self._failed.append(False)
-
+        print("Labels are: ", self.labels)
         # this should be called after grapher.build_graph_and_featurize,
         # which initializes the feature name and size
         self._feature_name = self.grapher.feature_name
@@ -315,7 +316,10 @@ class BondDataset(BaseDataset):
         if self.label_transformer:
 
             # normalization
+            # print([torch.unsqueeze(lb["value"],dim=-1) for lb in self.labels])
             values = torch.cat([lb["value"] for lb in self.labels])  # 1D tensor
+            # values = torch.cat([torch.unsqueeze(lb["value"],dim=-1) for lb in self.labels])  # 1D tensor
+            print(values)
 
             if self.state_dict_filename is None:
                 mean = torch.mean(values)
