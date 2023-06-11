@@ -1,5 +1,5 @@
 !!python/object:argparse.Namespace
-batch_size: 2
+batch_size: 100
 dataset_state_dict_filename: dataset_state_dict.pkl
 dist_backend: nccl
 dist_url: tcp://localhost:13456
@@ -14,7 +14,7 @@ fc_hidden_size:
 - 32
 fc_num_layers: 2
 feature_size:
-  atom: 22
+  atom: 26
   bond: 11
   global: 3
 gated_activation: ReLU
@@ -29,7 +29,7 @@ gated_num_fc_layers: 1
 gated_num_layers: 3
 gated_residual: 1
 gpu: null
-lr: 0.001
+lr: 0.01
 num_gpu: null
 output_file: results.pkl
 readout_type: bond

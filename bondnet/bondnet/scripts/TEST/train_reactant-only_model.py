@@ -62,7 +62,8 @@ def parse_args():
     parser.add_argument("--start-epoch", type=int, default=0)
     parser.add_argument("--epochs", type=int, default=1000, help="number of epochs")
     parser.add_argument("--batch-size", type=int, default=100, help="batch size")
-    parser.add_argument("--lr", type=float, default=0.001, help="learning rate")
+    # old default was 0.001
+    parser.add_argument("--lr", type=float, default=0.01, help="learning rate")
     parser.add_argument("--weight-decay", type=float, default=0.0, help="weight decay")
     parser.add_argument("--restore", type=int, default=0, help="read checkpoints")
     parser.add_argument(
@@ -269,12 +270,20 @@ def main_worker(gpu, world_size, args):
     seed_torch()
 
     ### dataset
-    sdf_file = "~/Work/Research/GitHubRepos/mjwen/bondnet/bondnet/scripts/TEST/fake_solubility_data.sdf"
-    label_file = "~/Work/Research/GitHubRepos/mjwen/bondnet/bondnet/scripts/TEST/fake_sol_lables.yaml"
-    feature_file = "~/Work/Research/GitHubRepos/mjwen/bondnet/bondnet/scripts/TEST/fake_sol_attributes.yaml"    
-    # sdf_file = "~/Work/Research/GitHubRepos/mjwen/bondnet/bondnet/scripts/TEST/molecules.sdf"
-    # label_file = "~/Work/Research/GitHubRepos/mjwen/bondnet/bondnet/scripts/TEST/das_label_file.yaml"
-    # feature_file = "~/Work/Research/GitHubRepos/mjwen/bondnet/bondnet/scripts/TEST/molecule_attributes.yaml"
+    # fake dataset is with 10 molecules
+    '''
+    sdf_file = "/Users/adityabehal/Documents/RPI/RCOS/IBM-ML-Chemistry/IBM-Graph-Neural-Network/bondnet/bondnet/scripts/TEST/fake_solubility_data.sdf"
+    label_file = "/Users/adityabehal/Documents/RPI/RCOS/IBM-ML-Chemistry/IBM-Graph-Neural-Network/bondnet/bondnet/scripts/TEST/fake_sol_lables.yaml"
+    feature_file = "/Users/adityabehal/Documents/RPI/RCOS/IBM-ML-Chemistry/IBM-Graph-Neural-Network/bondnet/bondnet/scripts/TEST/fake_sol_attributes.yaml"
+    '''
+
+    sdf_file = "/Users/adityabehal/Documents/RPI/RCOS/IBM-ML-Chemistry/IBM-Graph-Neural-Network/bondnet/bondnet/scripts/TEST/solubility_data.sdf"
+    label_file = "/Users/adityabehal/Documents/RPI/RCOS/IBM-ML-Chemistry/IBM-Graph-Neural-Network/bondnet/bondnet/scripts/TEST/sol_lables.yaml"
+    feature_file = "/Users/adityabehal/Documents/RPI/RCOS/IBM-ML-Chemistry/IBM-Graph-Neural-Network/bondnet/bondnet/scripts/TEST/sol_attributes.yaml"
+
+    # sdf_file = "/Users/adityabehal/Documents/RPI/RCOS/IBM-ML-Chemistry/IBM-Graph-Neural-Network/bondnet/bondnet/scripts/TEST/molecules.sdf"
+    # label_file = "/Users/adityabehal/Documents/RPI/RCOS/IBM-ML-Chemistry/IBM-Graph-Neural-Network/bondnet/bondnet/scripts/TEST/das_label_file.yaml"
+    # feature_file = "/Users/adityabehal/Documents/RPI/RCOS/IBM-ML-Chemistry/IBM-Graph-Neural-Network/bondnet/bondnet/scripts/TEST/molecule_attributes.yaml"
     # sdf_file = "~/Applications/db_access/zinc_bde/zinc_struct_bond_rgrn_n200.sdf"
     # label_file = "~/Applications/db_access/zinc_bde/zinc_label_bond_rgrn_n200.txt"
     # feature_file = "~/Applications/db_access/zinc_bde/zinc_feature_bond_rgrn_n200.yaml"
@@ -381,8 +390,15 @@ def main_worker(gpu, world_size, args):
         model = ddp_model
 
     ### optimizer, loss, and metric
+    '''
     optimizer = torch.optim.Adam(
         model.parameters(), lr=args.lr, weight_decay=args.weight_decay
+    )
+    '''
+
+    optimizer = torch.optim.SGD(
+        # lr=args.lr
+        model.parameters(), lr=0.1, weight_decay=args.weight_decay
     )
 
     loss_func = MSELoss(reduction="mean")
